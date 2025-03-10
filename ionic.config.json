@@ -1,0 +1,7 @@
+{
+  "name": "bon-voyage",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

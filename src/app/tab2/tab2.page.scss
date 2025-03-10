@@ -1,0 +1,50 @@
+ion-icon{
+    color: rgb(81, 15, 15);
+}
+
+ion-button{
+    color: rgb(81, 15, 15);
+    --background: white;
+}
+
+ion-content{
+    --ion-background-color: rgb(255, 243, 244);
+}
+
+ion-title{
+    font-family: "patrick";
+    color: rgb(81, 15, 15);
+    text-align: center;
+    font-size: 200%;
+    padding-top: 13%;
+    margin-bottom: 2%;
+    margin-top: 3%;
+}
+.topbar{
+    background-color: rgb(207, 137, 137);
+}
+
+.profile{
+    position: absolute;
+    padding-bottom: 8.5%;
+    padding-left: 45%;
+    margin-bottom: 3%;
+}
+
+ion-card{
+    --ion-background-color: rgb(236, 190, 190);
+}
+
+
+p{
+    text-align: center;
+}
+
+h2{
+    padding-left: 4%;
+    font-weight: bold;
+}
+
+#map{
+    height: 100%;
+}

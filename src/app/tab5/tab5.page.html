@@ -1,0 +1,24 @@
+<ion-toolbar class="topbar" class="ion-no-border">
+  <ion-title size="large">Bon Voyage</ion-title>
+  <ion-icon name="person-circle-outline" class="profile" style="float: right; scale: 3; padding-right: 3%;"></ion-icon>
+</ion-toolbar>
+
+<ion-content [fullscreen]="true">
+
+  <h2>Lists</h2>
+  <ion-card>
+    <ion-card-content>
+      <ion-list>
+        <ion-item lines="none">
+          <ion-label>My List</ion-label>
+          <ion-icon class="arrow" name="arrow-forward"></ion-icon>
+        </ion-item>
+        </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-button [routerLink]="['/lists']"></ion-button>
+
+
+  <app-explore-container name="Tab 5 page"></app-explore-container>
+</ion-content>
