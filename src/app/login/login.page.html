@@ -1,6 +1,9 @@
+<ion-toolbar class="topbar" class="ion-no-border">
+  <ion-title size="large">Bon Voyage</ion-title>
+</ion-toolbar>
+
 <ion-content>
   <div class="ion-padding">
-    <h1>Bon Voyage!</h1>
     <p>Login below using your email and password</p>
   </div>
   <ion-list inset="true">
@@ -16,7 +19,7 @@
       <div class="ion-text-center">
         <ion-button type="submit" fill="clear">Login</ion-button>
       </div>
-      <ion-label (click)="goToSignup()">If you have no account, sign up here!</ion-label>
+      <ion-label (click)="goToSignup()" class="login">If you have no account, sign up here!</ion-label>
     </form>
   </ion-list>
 </ion-content>

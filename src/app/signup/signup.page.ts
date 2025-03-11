@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { SupabaseService } from '../services/supabase.service';
 import { IonicModule } from '@ionic/angular';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
   standalone: true,
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
-  imports: [IonicModule, FormsModule]
+  imports: [IonicModule, FormsModule, RouterModule, IonContent, IonHeader, IonTitle, IonToolbar]
 })
 export class SignupPage {
 
@@ -41,6 +42,19 @@ export class SignupPage {
     this.navCtrl.back();
   }
   goToHome(){
+    console.log("navigation")
     this.router.navigate(['/tab1']);
   }
 }
+
+navigator.locks.request("lock:sb-aoesmwcahajxuceweegh-auth-token", { mode: "exclusive" }, (lock) => {
+  console.log("Lock acquired!", lock);
+});
+
+navigator.locks.request("lock:sb-aoesmwcahajxuceweegh-auth-token", { mode: "exclusive" }, async (lock) => {
+  try {
+      console.log("Lock acquired, doing work...");
+  } finally {
+      console.log("Releasing lock");
+  }
+});

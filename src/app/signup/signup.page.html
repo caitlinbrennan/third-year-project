@@ -1,6 +1,9 @@
+<ion-toolbar class="topbar" class="ion-no-border">
+  <ion-title size="large">Bon Voyage</ion-title>
+</ion-toolbar>
+
 <ion-content>
   <div class="ion-padding">
-    <h1>Bon Voyage!</h1>
     <p>Sign up below using your email and password</p>
   </div>
   <ion-list inset="true">
@@ -14,9 +17,9 @@
         <ion-input [(ngModel)]="password" name="password" required></ion-input>
       </ion-item>
       <div class="ion-text-center">
-        <ion-button type="submit" fill="clear" (click)="goToHome()">Signup</ion-button>
+        <ion-button type="submit" fill="clear" [routerLink]="['/tab']">Signup</ion-button>
       </div>
-      <ion-label>If you have an account, log in here!</ion-label>
+      <ion-label (click)="goToLogin()" class="login">If you have an account, log in here!</ion-label>
     </form>
   </ion-list>
 </ion-content>
