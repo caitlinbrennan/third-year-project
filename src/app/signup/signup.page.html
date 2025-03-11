@@ -1,7 +1,7 @@
 <ion-content>
   <div class="ion-padding">
     <h1>Bon Voyage!</h1>
-    <p>Login below using your email and password</p>
+    <p>Sign up below using your email and password</p>
   </div>
   <ion-list inset="true">
     <form (ngSubmit)="handleLogin($event)">
@@ -14,9 +14,9 @@
         <ion-input [(ngModel)]="password" name="password" required></ion-input>
       </ion-item>
       <div class="ion-text-center">
-        <ion-button type="submit" fill="clear">Login</ion-button>
+        <ion-button type="submit" fill="clear" (click)="goToHome()">Signup</ion-button>
       </div>
-      <ion-label (click)="goToSignup()">If you have no account, sign up here!</ion-label>
+      <ion-label>If you have an account, log in here!</ion-label>
     </form>
   </ion-list>
 </ion-content>

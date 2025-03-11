@@ -3,21 +3,22 @@ import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/stan
 import { SupabaseService } from '../services/supabase.service';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-signup',
   standalone: true,
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  templateUrl: './signup.page.html',
+  styleUrls: ['./signup.page.scss'],
   imports: [IonicModule, FormsModule]
 })
-export class LoginPage {
+export class SignupPage {
 
   email = ''
   password = ''
 
-  constructor(private readonly supabase: SupabaseService, private router: Router) {}
+  constructor(private readonly supabase: SupabaseService, private navCtrl: NavController, private router: Router) {}
 
   async handleLogin(event: any) {
     event.preventDefault()
@@ -27,6 +28,7 @@ export class LoginPage {
       const { error } = await this.supabase.signIn(this.email)
       if (error) {
         throw error
+        console.log("issue");
       }
       await loader.dismiss()
     } catch (error: any) {
@@ -35,11 +37,10 @@ export class LoginPage {
     }
   }
 
-  goToSignup(){
-    this.router.navigate(['/signup']);
+  goToLogin(){
+    this.navCtrl.back();
   }
   goToHome(){
     this.router.navigate(['/tab1']);
   }
-
 }
