@@ -24,6 +24,29 @@ export class SupabaseService {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
   }
 
+    // Fetch To-Dos
+    async getLists() {
+      let { data, error } = await this.supabase.from('lists').select('*').order('created_at', { ascending: false });
+      return data;
+    }
+  
+    // Add To-Do
+    async addList(title: string) {
+      let { data, error } = await this.supabase.from('lists').insert([{ title }]);
+      return data;
+    }
+
+    async updateList(id: string, isCompleted: boolean) {
+      let { data, error } = await this.supabase.from('lists').update({ is_completed: isCompleted }).eq('id', id);
+      return data;
+    }
+  
+    // Delete To-Do
+    async deleteList(id: string) {
+      let { data, error } = await this.supabase.from('lists').delete().eq('id', id);
+      return data;
+    }
+
   get user() {
     return this.supabase.auth.getUser().then(({ data }) => data?.user)
   }

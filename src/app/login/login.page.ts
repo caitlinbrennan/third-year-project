@@ -39,7 +39,7 @@ export class LoginPage {
     this.router.navigate(['/signup']);
   }
   goToHome(){
-    this.router.navigate(['/tab1']);
+    this.router.navigate(['/tabs/tab1']);
   }
 
 }
