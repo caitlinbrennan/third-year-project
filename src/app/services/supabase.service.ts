@@ -24,13 +24,11 @@ export class SupabaseService {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
   }
 
-    // Fetch To-Dos
     async getLists() {
       let { data, error } = await this.supabase.from('lists').select('*').order('created_at', { ascending: false });
       return data;
     }
   
-    // Add To-Do
     async addList(title: string) {
       let { data, error } = await this.supabase.from('lists').insert([{ title }]);
       return data;
@@ -41,11 +39,12 @@ export class SupabaseService {
       return data;
     }
   
-    // Delete To-Do
     async deleteList(id: string) {
       let { data, error } = await this.supabase.from('lists').delete().eq('id', id);
       return data;
     }
+
+
 
   get user() {
     return this.supabase.auth.getUser().then(({ data }) => data?.user)
@@ -66,15 +65,12 @@ export class SupabaseService {
   authChanges(callback: (event: AuthChangeEvent, session: Session | null) => void) {
     return this.supabase.auth.onAuthStateChange(callback)
   }
-
   signIn(email: string) {
     return this.supabase.auth.signInWithOtp({ email })
   }
-
   signOut() {
     return this.supabase.auth.signOut()
   }
-
   async updateProfile(profile: Profile) {
     const user = await this.user
     const update = {

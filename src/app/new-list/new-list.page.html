@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>New List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">New List</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-item>
+    <ion-button (click)="goBack()">Back</ion-button>
+  </ion-item>
+
+  <ion-list>
+    <ion-item *ngFor="let list of lists">
+      <ion-label [class.completed]="list.is_completed">{{ list.title }}</ion-label>
+      <ion-checkbox slot="start" [(ngModel)]="list.is_completed" (ionChange)="toggleCompleted(list)"></ion-checkbox>
+      <ion-button color="danger" (click)="deleteTodo(list.id)">
+        <ion-icon name="trash"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-item>
+    <ion-input [(ngModel)]="newList" placeholder="Enter new task"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Description</ion-label>
+    <ion-input placeholder="Enter description"></ion-input>
+  </ion-item>
+  <ion-button (click)="addList()">Add</ion-button>
+
+
+</ion-content>

@@ -11,13 +11,13 @@
       <ion-list>
         <ion-item lines="none">
           <ion-label>My List</ion-label>
-          <ion-icon class="arrow" name="arrow-forward"></ion-icon>
+          <ion-icon class="arrow" name="arrow-forward" [routerLink]="['/lists']"></ion-icon>
         </ion-item>
         </ion-list>
     </ion-card-content>
   </ion-card>
 
-  <ion-button [routerLink]="['/lists']"></ion-button>
+  <ion-button [routerLink]="['/new-list']"></ion-button>
 
 
   <app-explore-container name="Tab 5 page"></app-explore-container>
