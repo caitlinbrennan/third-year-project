@@ -23,6 +23,16 @@ export class SupabaseService {
   ) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
   }
+  
+  async searchItems(query: string): Promise<any[]>{
+    const { data, error } = await this.supabase
+    .from('locations')
+    .select('*')
+    .ilike('country_name', '%${query}%');
+
+    if (error) throw error;
+    return data || [];
+  }
 
     async getLists() {
       let { data, error } = await this.supabase.from('lists').select('*').order('created_at', { ascending: false });

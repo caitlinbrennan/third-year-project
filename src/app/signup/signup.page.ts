@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonContent, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonTitle } from '@ionic/angular/standalone';
 import { SupabaseService } from '../services/supabase.service';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   standalone: true,
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
-  imports: [IonicModule, FormsModule, RouterModule, IonContent, IonTitle, IonToolbar]
+  imports: [IonicModule, FormsModule, RouterModule, IonContent, IonTitle]
 })
 export class SignupPage {
 

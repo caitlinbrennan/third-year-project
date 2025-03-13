@@ -11,7 +11,7 @@
       <ion-list>
         <ion-item lines="none">
           <ion-label>Locations</ion-label>
-          <ion-icon class="arrow" name="arrow-forward"></ion-icon>
+          <ion-icon class="arrow" name="arrow-forward" [routerLink]="['/bookmarks']"></ion-icon>
         </ion-item>
       </ion-list>
     </ion-card-content>
@@ -21,15 +21,12 @@
       <ion-list>
         <ion-item lines="none">
           <ion-label>Activities</ion-label>
-          <ion-icon class="arrow" name="arrow-forward"></ion-icon>
+          <ion-icon class="arrow" name="arrow-forward" [routerLink]="['/bookmarks']"></ion-icon>
         </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
 
-  <ion-button class="add">
-    <ion-icon name="add-circle" style="font-size: 25px;"></ion-icon>
-  </ion-button>
 
   <app-explore-container name="Tab 3 page"></app-explore-container>
 </ion-content>
