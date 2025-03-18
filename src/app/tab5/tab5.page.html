@@ -17,7 +17,11 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-button [routerLink]="['/new-list']"></ion-button>
+  <ion-button class="add">
+    <a class="addbutton" [routerLink]="['/new-list']">
+      <ion-icon name="add-circle" style="font-size: 25px;"></ion-icon>
+    </a>
+  </ion-button>
 
 
   <app-explore-container name="Tab 5 page"></app-explore-container>

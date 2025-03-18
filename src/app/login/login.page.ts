@@ -4,6 +4,7 @@ import { SupabaseService } from '../services/supabase.service';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +18,7 @@ export class LoginPage {
   email = ''
   password = ''
 
-  constructor(private readonly supabase: SupabaseService, private router: Router) {}
+  constructor(private readonly supabase: SupabaseService, private router: Router, private navCtrl: NavController) {}
 
   async handleLogin(event: any) {
     event.preventDefault()
@@ -38,8 +39,10 @@ export class LoginPage {
   goToSignup(){
     this.router.navigate(['/signup']);
   }
-  goToHome(){
-    this.router.navigate(['/tabs/tab1']);
+
+  login() {
+    // Perform authentication logic here
+    this.router.navigate(['/tabs/tab1']); // Replaces current page, preventing going back
   }
 
 }

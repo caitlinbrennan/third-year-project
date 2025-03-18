@@ -7,12 +7,12 @@ const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
-    path: 'lists',
-    loadChildren: () => import('./lists/lists.module').then( m => m.ListsPageModule)
-  },
-  {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'lists',
+    loadChildren: () => import('./lists/lists.module').then( m => m.ListsPageModule)
   },
   {
     path: 'signup',
@@ -29,7 +29,8 @@ const routes: Routes = [
   {
     path: 'search',
     loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
-  },  {
+  },
+  {
     path: 'account',
     loadChildren: () => import('./account/account.module').then( m => m.AccountPageModule)
   },
