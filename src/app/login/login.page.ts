@@ -16,7 +16,6 @@ import { NavController } from '@ionic/angular';
 export class LoginPage {
 
   email = ''
-  password = ''
 
   constructor(private readonly supabase: SupabaseService, private router: Router, private navCtrl: NavController) {}
 

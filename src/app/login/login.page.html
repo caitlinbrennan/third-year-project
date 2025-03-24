@@ -10,12 +10,8 @@
         <ion-label position="stacked">Email</ion-label>
         <ion-input [(ngModel)]="email" name="email" autocomplete type="email"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-label position="floating">Password</ion-label>
-        <ion-input [(ngModel)]="password" name="password" required></ion-input>
-      </ion-item>
       <div class="ion-text-center">
-        <ion-button (click)="login()" type="submit" fill="clear">Login</ion-button>
+        <ion-button>Login</ion-button>
       </div>
       <ion-label (click)="goToSignup()" class="login">If you have no account, sign up here!</ion-label>
     </form>
