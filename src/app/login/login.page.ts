@@ -40,8 +40,7 @@ export class LoginPage {
   }
 
   login() {
-    // Perform authentication logic here
-    this.router.navigate(['/tabs/tab1']); // Replaces current page, preventing going back
+    this.router.navigate(['/tabs/tab1']);
   }
 
 }

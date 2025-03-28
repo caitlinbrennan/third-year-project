@@ -11,7 +11,7 @@
         <ion-input [(ngModel)]="email" name="email" autocomplete type="email"></ion-input>
       </ion-item>
       <div class="ion-text-center">
-        <ion-button>Login</ion-button>
+        <ion-button (click)="login()">Login</ion-button>
       </div>
       <ion-label (click)="goToSignup()" class="login">If you have no account, sign up here!</ion-label>
     </form>
