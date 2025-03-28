@@ -16,6 +16,7 @@
             "outputPath": "www",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "baseHref": "/",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -33,7 +34,7 @@
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss", "node_modules/leaflet/dist/leaflet.css"],
             "scripts": [],
-            "serviceWorker": true,
+            "serviceWorker": false,
             "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {

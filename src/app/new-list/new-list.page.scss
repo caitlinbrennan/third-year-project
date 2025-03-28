@@ -1,0 +1,32 @@
+ion-content{
+    --ion-background-color: rgb(224, 202, 204);
+}
+
+ion-title {
+    font-family: "patrick";
+    position: absolute;
+    margin-left: 31%;
+}
+
+.back-button {
+    --background: #a26382;
+}
+ion-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 2%;
+}
+ion-toolbar {
+    --ion-background-color: rgb(224, 202, 204);
+    --background: rgb(224, 202, 204);
+}
+
+.add-list {
+    --background: #a26382;
+    font-size: 130%;
+    --color: white;
+    display: grid;
+    justify-content: right;
+    padding-right: 5%;
+}

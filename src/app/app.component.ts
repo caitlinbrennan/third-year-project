@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
 import { SupabaseService } from './services/supabase.service'
 
@@ -8,7 +8,7 @@ import { SupabaseService } from './services/supabase.service'
   styleUrls: ['app.component.scss'],
   standalone: false,
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   constructor(
     private supabase: SupabaseService,
     private router: Router
@@ -19,5 +19,8 @@ export class AppComponent {
         this.router.navigate(['/tabs'])
       }
     })
+  }
+  ngOnInit() {
+    console.log("Loop initialised", new Date());
   }
 }

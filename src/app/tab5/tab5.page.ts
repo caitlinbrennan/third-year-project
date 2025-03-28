@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,5 +14,6 @@ export class Tab5Page {
   goToLists(){
     this.router.navigate(['/lists']);
   }
+
 }
 

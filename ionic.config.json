@@ -3,5 +3,10 @@
   "integrations": {
     "capacitor": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "watchPatterns": [
+    "src/**/*",
+    "!node_modules/**/*",
+    "!www/**/*"
+  ]
 }
