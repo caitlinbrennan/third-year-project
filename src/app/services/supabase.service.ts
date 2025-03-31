@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 
 export interface Profile{
   username: string
+  website: string
   avatar_url: string
 }
 
@@ -17,6 +18,9 @@ export class SupabaseService {
 
   private supabase: SupabaseClient
 
+  listTitle: string="";
+  itemName: string="";
+
   constructor(
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
@@ -24,6 +28,24 @@ export class SupabaseService {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
   }
   
+  async getUserLists(userId: string) {
+    const lists = {
+      list_title: this.listTitle,
+      item: this.itemName,
+      user_id: this.user,
+    };
+
+    const { data, error } = await this.supabase
+    .from('lists')
+    .select('')
+    .eq('user_id', userId);
+
+    if (error) {
+      throw new Error('Failed to load lists:' + error.message);
+    }
+    return data;
+  }
+
   async searchItems(query: string): Promise<any[]>{
     const { data, error } = await this.supabase
     .from('locations')

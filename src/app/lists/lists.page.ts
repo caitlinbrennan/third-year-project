@@ -5,6 +5,8 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { SupabaseService } from '../services/supabase.service';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { environment } from 'src/environments/environment';
 
 interface YourTableData{
   id: number;
@@ -19,13 +21,17 @@ interface YourTableData{
   imports: [CommonModule, FormsModule, IonicModule]
 })
 export class ListsPage implements OnInit {
+  private supabase: SupabaseClient
 
-  lists: any[] = [];
-  newList: string = '';
-
-  constructor(private router: Router, private navCtrl: NavController, private supabaseService: SupabaseService) { }
+  constructor(private router: Router, private navCtrl: NavController, private supabaseService: SupabaseService) {
+    this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
+   }
 
   ngOnInit() {
+  }
+
+  getListsByUser(userId: string) {
+    return this.supabase.from('lists').select('').eq('user_id', userId);
   }
 
   goBack(){
