@@ -7,9 +7,10 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">bookmarks</ion-title>
+      <ion-item>
+        <ion-button (click)="goBack()" class="back-button">Back</ion-button>
+        <ion-title size="large" class="heading">Bookmarks</ion-title>
+      </ion-item>
     </ion-toolbar>
   </ion-header>
-
-  <ion-button (click)="goBack()"></ion-button>
 </ion-content>

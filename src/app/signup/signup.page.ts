@@ -16,8 +16,8 @@ import { Router } from '@angular/router';
 })
 export class SignupPage {
 
-  email = ''
-  password = ''
+  email = '';
+  password = '';
 
   constructor(private readonly supabase: SupabaseService, private navCtrl: NavController, private router: Router) {}
 
@@ -26,17 +26,19 @@ export class SignupPage {
     const loader = await this.supabase.createLoader()
     await loader.present()
     try {
-      const { error } = await this.supabase.signIn(this.email)
-      if (error) {
-        throw error
-        console.log("issue");
-      }
+      const user = await this.supabase.signIn(this.email);
+      await this.supabase.signIn(this.email)
       await loader.dismiss()
+      if(user) {
+        console.log('Sign Up successful:', user);
+        this.navCtrl.navigateRoot('/tabs/tab1');
+      }
     } catch (error: any) {
       await loader.dismiss()
       await this.supabase.createNotice(error.error_description || error.message)
     }
   }
+
 
   goToLogin(){
     this.navCtrl.back();

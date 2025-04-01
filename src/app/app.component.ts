@@ -8,7 +8,7 @@ import { SupabaseService } from './services/supabase.service'
   styleUrls: ['app.component.scss'],
   standalone: false,
 })
-export class AppComponent implements OnInit{
+export class AppComponent{
   constructor(
     private supabase: SupabaseService,
     private router: Router
@@ -16,11 +16,8 @@ export class AppComponent implements OnInit{
     this.supabase.authChanges((_, session) => {
       console.log(session)
       if (session?.user) {
-        this.router.navigate(['/tabs'])
+        this.router.navigate(['/tabs/tab1'])
       }
     })
-  }
-  ngOnInit() {
-    console.log("Loop initialised", new Date());
   }
 }

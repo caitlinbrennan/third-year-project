@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
 import { SupabaseService } from '../services/supabase.service';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, LoadingController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -15,32 +16,57 @@ import { NavController } from '@ionic/angular';
 })
 export class LoginPage {
 
-  email = ''
+  email: string = "";
+  password: string = "";
 
-  constructor(private readonly supabase: SupabaseService, private router: Router, private navCtrl: NavController) {}
+  constructor(private readonly supabase: SupabaseService, private router: Router,
+    private navCtrl: NavController, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {}
 
   async handleLogin(event: any) {
     event.preventDefault()
     const loader = await this.supabase.createLoader()
     await loader.present()
     try {
-      const { error } = await this.supabase.signIn(this.email)
-      if (error) {
-        throw error
-      }
+      const user = await this.supabase.signIn(this.email);
+      await this.supabase.signIn(this.email)
       await loader.dismiss()
+      if(user) {
+        console.log('Login successful:', user);
+        this.navCtrl.navigateRoot('/tabs/tab1');
+      }
     } catch (error: any) {
       await loader.dismiss()
       await this.supabase.createNotice(error.error_description || error.message)
     }
   }
 
-  goToSignup(){
-    this.router.navigate(['/signup']);
+  async login() {
+    const loading = await this.loadingCtrl.create({ message: 'Logging in...'});
+    await loading.present();
+
+    try {
+      await this.supabase.login(this.email, this.password);
+      await loading.dismiss();
+      this.showAlert('Success', 'Login successful!');
+    }
+    catch (error:any) {
+      await loading.dismiss();
+      this.showAlert('Error', error.message || 'Login failed.');
+    }
   }
 
-  login() {
-    this.router.navigate(['/tabs/tab1']);
+  async showAlert(title: string, message: string) {
+    const alert = await this.alertCtrl.create({
+      header: title,
+      message,
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+
+
+  goToSignup(){
+    this.router.navigate(['/signup']);
   }
 
 }

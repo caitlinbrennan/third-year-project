@@ -27,6 +27,30 @@ export class SupabaseService {
   ) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
   }
+
+  async login(email: string, password: string) {
+    const { data, error } = await this.supabase.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+    return data;
+  }
+  async signUp(email: string, password: string) {
+    const { data, error } = await this.supabase.auth.signUp({email, password});
+    if (error) throw error;
+    return data;
+  }
+  async getUser() {
+    const { data, error } = await this.supabase.auth.getUser();
+    if (error) throw error;
+    return data;
+  }
+
+  signIn(email: string) {
+    return this.supabase.auth.signInWithOtp({ email })
+  }
+
+  get user() {
+    return this.supabase.auth.getUser();
+  }
   
   async getUserLists(userId: string) {
     const lists = {
@@ -78,32 +102,25 @@ export class SupabaseService {
 
 
 
-  get user() {
-    return this.supabase.auth.getUser().then(({ data }) => data?.user)
-  }
-
   get session() {
     return this.supabase.auth.getSession().then(({ data }) => data?.session)
   }
 
-  get profile() {
+  /*get profile() {
     return this.user
       .then((user) => user?.id)
       .then((id) =>
         this.supabase.from('profiles').select(`username, website, avatar_url`).eq('id', id).single()
       )
-  }
+  }*/
 
   authChanges(callback: (event: AuthChangeEvent, session: Session | null) => void) {
     return this.supabase.auth.onAuthStateChange(callback)
   }
-  signIn(email: string) {
-    return this.supabase.auth.signInWithOtp({ email })
-  }
   signOut() {
     return this.supabase.auth.signOut()
   }
-  async updateProfile(profile: Profile) {
+  /*async updateProfile(profile: Profile) {
     const user = await this.user
     const update = {
       ...profile,
@@ -112,7 +129,7 @@ export class SupabaseService {
     }
 
     return this.supabase.from('profiles').upsert(update)
-  }
+  }*/
 
   downLoadImage(path: string) {
     return this.supabase.storage.from('avatar_url').download(path)
