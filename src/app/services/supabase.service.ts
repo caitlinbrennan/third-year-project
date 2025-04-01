@@ -44,6 +44,20 @@ export class SupabaseService {
     return data;
   }
 
+  async insertUser() {
+    const { data, error } = await this.supabase
+    .from('users')
+    .insert([
+      { name: 'John', email: 'john@example.com'}
+    ]);
+    if (error) {
+      console.error('Error inserting data:', error);
+    }
+    else {
+      console.log('Inserted data:', data);
+    }
+  }
+
   signIn(email: string) {
     return this.supabase.auth.signInWithOtp({ email })
   }

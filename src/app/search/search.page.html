@@ -12,11 +12,11 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="onSearch()"></ion-searchbar>
+  <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="fetchData()"></ion-searchbar>
 
 <ion-list>
-  <ion-item *ngFor="let item of items">
-    <ion-label>{{ item.name }}</ion-label>
+  <ion-item *ngFor="let country_name of country_name">
+    <ion-label>{{ country_name.name }}</ion-label>
   </ion-item>
 </ion-list>
 </ion-content>

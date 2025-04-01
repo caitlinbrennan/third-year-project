@@ -7,8 +7,12 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-button (click)="goBack()">Back</ion-button>
-      <ion-title size="large">Account</ion-title>
+      <ion-item>
+        <ion-button (click)="goBack()" class="back-button">Back</ion-button>
+      <ion-title size="large" class="heading">Account</ion-title>
+      </ion-item>
     </ion-toolbar>
   </ion-header>
+
+  <ion-button (click)="addUser()">Add user</ion-button>
 </ion-content>
