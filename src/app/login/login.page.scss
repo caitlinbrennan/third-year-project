@@ -1,28 +1,49 @@
+
+.montserrat-font {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
 .background-image{
-    --background: url(../login/assets/Background.jpg) 0 0/100% 100% no-repeat;
+    --background: url(../login/assets/loginbackground.png) 0 0/100% 100% no-repeat;
 }
 
 ion-title{
     margin-top: -170%;
-    font-family: "patrick";
-    color: rgb(81, 15, 15);
+    font-family: "Montserrat";
+    color: rgb(67, 11, 24);
     position: relative;
-    margin-left: 27%;
+    margin-left: 22%;
     font-size: 200%;
     margin-bottom: 2%;
+}
+p {
+    font-family: "Montserrat";
 }
 
 .ion-padding{
     font-size: 120%;
     text-align: center;
+    padding-bottom: 13%;
 }
 
 ion-button{
     margin-top: 50%;
     font-size: 150%;
     margin-bottom: 5%;
+    font-family: "Montserrat";
+    color: rgb(67, 11, 24);
+    background-color: rgb(254, 210, 218);
+    border-radius: 20px;
+    width: 50%;
 }
 
 .login{
-    margin-left: 15%;
+    text-align: center;
+    font-size: 15px;
+    margin-top: 5%;
+    padding-bottom: 5%;
+    font-family: "Montserrat";
 }

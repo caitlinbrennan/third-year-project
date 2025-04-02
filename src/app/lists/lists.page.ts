@@ -25,7 +25,7 @@ export class ListsPage implements OnInit {
 
   constructor(private router: Router, private navCtrl: NavController, private supabaseService: SupabaseService) {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
-   }
+  }
 
   ngOnInit() {
   }

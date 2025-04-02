@@ -26,8 +26,7 @@ export class SignupPage {
     const loader = await this.supabase.createLoader()
     await loader.present()
     try {
-      const user = await this.supabase.signIn(this.email);
-      await this.supabase.signIn(this.email)
+      const user = await this.supabase.signUp(this.email, this.password);
       await loader.dismiss()
       if(user) {
         console.log('Sign Up successful:', user);
@@ -39,6 +38,9 @@ export class SignupPage {
     }
   }
 
+  async createProfile(){
+    this.supabase.createProfile();
+  }
 
   goToLogin(){
     this.navCtrl.back();

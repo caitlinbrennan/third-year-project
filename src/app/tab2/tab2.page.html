@@ -1,5 +1,9 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+  </style>
+
 <ion-toolbar class="topbar" class="ion-no-border">
-  <ion-title size="large">Bon Voyage</ion-title>
+  <ion-title size="large">Search</ion-title>
   <ion-icon name="person-circle-outline" class="profile" style="float: right; scale: 3; padding-right: 3%;" [routerLink]="['/account']"></ion-icon>
 </ion-toolbar>
 
@@ -8,11 +12,11 @@
  
   <ion-searchbar><ion-button (click)="searchPage()">Enter</ion-button></ion-searchbar>
 
-  <h2>Map</h2>
+  <h3>Map</h3>
   <p class="mapdetails">View locations on the map!</p>
   <app-leaflet-map></app-leaflet-map>
 
-  <h2 style="padding-left:4%;">Popular Destinations</h2>
+  <h3 style="padding-left:4%;">Popular Destinations</h3>
   <ion-card>
     <ion-card-content>
       <ion-list>

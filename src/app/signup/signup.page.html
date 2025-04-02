@@ -1,3 +1,7 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+  </style>
+
 <ion-content class="background-image">
   <ion-title size="large">Bon Voyage</ion-title>
   
@@ -10,10 +14,16 @@
         <ion-label position="stacked">Email</ion-label>
         <ion-input [(ngModel)]="email" name="email" autocomplete type="email"></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Password</ion-label>
+        <ion-input [(ngModel)]="password" name="password" type="password"></ion-input>
+      </ion-item>
       <div class="ion-text-center">
-        <ion-button type="submit" fill="clear">Signup</ion-button>
+        <ion-button type="submit" fill="clear" (click)="createProfile()">Signup</ion-button>
       </div>
-      <ion-label (click)="goToLogin()" class="login">If you have an account, log in here!</ion-label>
+      <ion-item>
+        <ion-label (click)="goToLogin()" class="login">If you have an account, log in here!</ion-label>
+      </ion-item>
     </form>
   </ion-list>
 </ion-content>

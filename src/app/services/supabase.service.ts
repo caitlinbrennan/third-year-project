@@ -44,6 +44,36 @@ export class SupabaseService {
     return data;
   }
 
+  userName: string="";
+  firstName: string="";
+  lastName: string="";
+  avatar: string="";
+  email: string="";
+  password: string="";
+
+  async createProfile() {
+    const users = {
+      username: this.userName,
+      first_name: this.firstName,
+      last_name: this.lastName,
+      avatar_url: this.avatar,
+      email: this.email,
+      password: this.password,
+    }
+
+    try {
+      const {data , error} = await this.supabase
+      .from('userprofiles')
+      .insert([users]);
+
+      return { error, data};
+    }
+    catch (error) {
+      console.error('Signup failed', error);
+      return { error };
+    }
+}
+
   async insertUser() {
     const { data, error } = await this.supabase
     .from('users')

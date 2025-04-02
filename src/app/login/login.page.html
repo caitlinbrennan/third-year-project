@@ -1,3 +1,7 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+  </style>
+  
 <ion-content class="background-image">
   <ion-title size="large">Bon Voyage</ion-title>
   
@@ -13,7 +17,9 @@
       <div class="ion-text-center">
         <ion-button type="submit" fill="clear">Login</ion-button>
       </div>
-      <ion-label (click)="goToSignup()" class="login">If you have no account, sign up here!</ion-label>
+      <ion-item>
+        <ion-label (click)="goToSignup()" class="login">If you have no account, sign up here!</ion-label>
+      </ion-item>
     </form>
   </ion-list>
 </ion-content>

@@ -1,3 +1,10 @@
+.montserrat-font {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
 ion-icon{
     color: rgb(81, 15, 15);
 }
@@ -8,11 +15,11 @@ ion-button{
 }
 
 ion-content{
-    --ion-background-color: rgb(255, 243, 244);
+    --ion-background-color: #f7f4f5;
 }
 
 ion-title{
-    font-family: "patrick";
+    font-family: "Montserrat";
     color: rgb(81, 15, 15);
     text-align: center;
     font-size: 200%;
@@ -32,17 +39,18 @@ ion-title{
 }
 
 ion-card{
-    --ion-background-color: rgb(236, 190, 190);
+    --ion-background-color: #e4bac8;
 }
-
 
 p{
     text-align: center;
 }
 
-h2{
+h3{
+    color: rgb(81, 15, 15);
     padding-left: 4%;
     font-weight: bold;
+    font-family: "Montserrat";
 }
 
 #map{
