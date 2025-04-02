@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { SupabaseService } from '../services/supabase.service';
 
 @Component({
   selector: 'app-tab1',
@@ -9,9 +11,14 @@ import { Router } from '@angular/router';
 })
 export class Tab1Page {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private navCtrl: NavController, private supabase: SupabaseService) {}
 
   goToLists(){
     this.router.navigate(['/lists']);
+  }
+
+  async logout(){
+    this.supabase.signOut();
+    this.navCtrl.navigateRoot('/login');
   }
 }
