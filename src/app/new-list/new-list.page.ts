@@ -39,6 +39,40 @@ export class NewListPage implements OnInit {
     }
   }
 
+  userId: string="";
+  currentTimestamp = new Date().toISOString();
+  taskName: string="";
+  description: string="";
+  isCompleted: string="";
+  dueDate: string="";
+  id: string="";
+
+  async addLists(){
+    const user = await this.supabaseService.getUser();
+    if (!user) {
+      console.error('User not logged in');
+      return;
+    }
+
+    const lists = {
+      user_id: user.id,
+      task_name: this.taskName,
+      description: this.description,
+      is_completed: this.isCompleted,
+      due_date: this.dueDate,
+      created_at: new Date().toISOString(),
+    };
+
+    const response = await this.supabaseService.addLists(lists);
+    if (response.error) {
+      console.error('Failed to add list:', response.error);
+    }
+    else {
+      console.log('List added:', response.data);
+    }
+  }
+  
+
   async toggleCompleted(todo: any) {
     await this.supabaseService.updateList(todo.id, !todo.is_completed);
     this.loadLists();

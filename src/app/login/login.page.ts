@@ -16,8 +16,8 @@ import { AlertController } from '@ionic/angular';
 })
 export class LoginPage {
 
-  email: string = "";
-  password: string = "";
+  email = "";
+  password = "";
 
   constructor(private readonly supabase: SupabaseService, private router: Router,
     private navCtrl: NavController, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {}
@@ -27,8 +27,7 @@ export class LoginPage {
     const loader = await this.supabase.createLoader()
     await loader.present()
     try {
-      const user = await this.supabase.signIn(this.email);
-      await this.supabase.signIn(this.email)
+      const user = await this.supabase.signIn(this.email, this.password);
       await loader.dismiss()
       if(user) {
         console.log('Login successful:', user);

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
 import { SupabaseClient, createClient } from '@supabase/supabase-js';
+import { SupabaseService } from '../services/supabase.service';
 
 @Component({
   selector: 'app-account',
@@ -11,13 +12,18 @@ import { SupabaseClient, createClient } from '@supabase/supabase-js';
 })
 export class AccountPage implements OnInit {
 
-  constructor(private navCtrl: NavController) { 
+  constructor(private navCtrl: NavController, private supabase: SupabaseService) { 
   }
 
   ngOnInit() {}
 
   goBack(){
     this.navCtrl.back();
+  }
+
+  async logout(){
+    this.supabase.signOut();
+    this.navCtrl.navigateRoot('/login');
   }
 
 }

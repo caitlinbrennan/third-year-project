@@ -81,11 +81,26 @@ export class SupabaseService {
     }
 }
 
+
 async addTrip(trips: any) {
   try {
     const {data , error} = await this.supabase
     .from('upcoming_trips')
     .insert([trips]);
+
+    return { error, data};
+  }
+  catch (error) {
+    console.error('Failed to insert data', error);
+    return { error };
+  }
+}
+
+async addLists(lists: any) {
+  try {
+    const {data , error} = await this.supabase
+    .from('travel_lists')
+    .insert([lists]);
 
     return { error, data};
   }
@@ -109,8 +124,8 @@ async addTrip(trips: any) {
     }
 }
 
-  signIn(email: string) {
-    return this.supabase.auth.signInWithOtp({ email })
+  signIn(email: string, password: string) {
+    return this.supabase.auth.signInWithPassword({ email, password })
   }
 
   get user() {
