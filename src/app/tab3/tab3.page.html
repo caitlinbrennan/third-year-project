@@ -32,10 +32,8 @@
     </ion-card-content>
   </ion-card>
 
-  <ion-button class="add">
-    <a class="addbutton" href="../new/new.page.html">
-      <ion-icon name="add-circle" style="font-size: 25px;"></ion-icon>
-    </a>
+  <ion-button class="add" [routerLink]="['/addtrips']">
+    <ion-icon name="add-circle" style="font-size: 25px;"></ion-icon>
   </ion-button>
 
   <app-explore-container name="Tab 4 page"></app-explore-container>

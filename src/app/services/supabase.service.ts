@@ -41,15 +41,21 @@ export class SupabaseService {
   async getUser() {
     const { data, error } = await this.supabase.auth.getUser();
     if (error) throw error;
-    return data;
+    return data?.user;
   }
-
   userName: string="";
   firstName: string="";
   lastName: string="";
   avatar: string="";
   email: string="";
   password: string="";
+
+  date: string="";
+  hour: string="";
+  minute: string="";
+  second: string="";
+  description: string="";
+
 
   async createProfile() {
     const users = {
@@ -61,6 +67,7 @@ export class SupabaseService {
       password: this.password,
     }
 
+
     try {
       const {data , error} = await this.supabase
       .from('userprofiles')
@@ -68,10 +75,24 @@ export class SupabaseService {
 
       return { error, data};
     }
-    catch (error) {
-      console.error('Signup failed', error);
+    catch (error: any) {
+      console.error('Signup failed', error.message, error.details);
       return { error };
     }
+}
+
+async addTrip(trips: any) {
+  try {
+    const {data , error} = await this.supabase
+    .from('upcoming_trips')
+    .insert([trips]);
+
+    return { error, data};
+  }
+  catch (error) {
+    console.error('Failed to insert data', error);
+    return { error };
+  }
 }
 
   async insertUser() {
@@ -86,7 +107,7 @@ export class SupabaseService {
     else {
       console.log('Inserted data:', data);
     }
-  }
+}
 
   signIn(email: string) {
     return this.supabase.auth.signInWithOtp({ email })

@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { IonContent, IonTitle } from '@ionic/angular/standalone';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { IonContent, IonTitle, IonModal } from '@ionic/angular/standalone';
 import { SupabaseService } from '../services/supabase.service';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { OverlayEventDetail } from '@ionic/core/components';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
-  imports: [IonicModule, FormsModule, RouterModule, IonContent, IonTitle]
+  imports: [IonicModule, FormsModule, RouterModule, IonContent, IonTitle, IonModal]
 })
 export class SignupPage {
 
@@ -38,7 +39,42 @@ export class SignupPage {
     }
   }
 
+    @ViewChild(IonModal) modal!: IonModal;
+
+  message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
+  name!: string;
+
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
+  }
+
+  confirm() {
+    this.modal.dismiss(this.name, 'confirm');
+  }
+
+  onWillDismiss(event: CustomEvent<OverlayEventDetail>) {
+    if (event.detail.role === 'confirm') {
+      this.message = `Hello, ${event.detail.data}!`;
+    }
+  }
+
+  userName: string="";
+  firstName: string="";
+  lastName: string="";
+  avatar: string="";
+  emailUsed: string="";
+  passwordUsed: string="";
+
   async createProfile(){
+    const users = {
+      username: this.userName,
+      first_name: this.firstName,
+      last_name: this.lastName,
+      avatar_url: this.avatar,
+      email: this.emailUsed,
+      password: this.passwordUsed,
+    }
+
     this.supabase.createProfile();
   }
 

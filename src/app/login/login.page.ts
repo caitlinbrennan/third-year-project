@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonImg } from '@ionic/angular/standalone';
 import { SupabaseService } from '../services/supabase.service';
 import { IonicModule, LoadingController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';

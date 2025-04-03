@@ -34,6 +34,14 @@ const routes: Routes = [
   {
     path: 'account',
     loadChildren: () => import('./account/account.module').then( m => m.AccountPageModule)
+  },
+  {
+    path: 'upcomingtrips',
+    loadChildren: () => import('./upcomingtrips/upcomingtrips.module').then( m => m.UpcomingtripsPageModule)
+  },
+  {
+    path: 'addtrips',
+    loadChildren: () => import('./addtrips/addtrips.module').then( m => m.AddtripsPageModule)
   }
 
 ];

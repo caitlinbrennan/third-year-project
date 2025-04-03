@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>addtrips</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">addtrips</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <form (submit)="addTrip()">
+    <ion-item>
+      <ion-label position="stacked">Trip Name</ion-label>
+      <ion-input [(ngModel)]="tripName" name="destination" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Country</ion-label>
+      <ion-input [(ngModel)]="countryName" name="destination" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Date</ion-label>
+      <ion-input [(ngModel)]="tripDate" name="destination" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Flights</ion-label>
+      <ion-input [(ngModel)]="flightInfo" name="destination" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Lists</ion-label>
+      <ion-input [(ngModel)]="lists" name="destination" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Description</ion-label>
+      <ion-input [(ngModel)]="tripDesc" name="destination" required></ion-input>
+    </ion-item>
+    <ion-button type="submit">Add?</ion-button>
+  </form>
+</ion-content>
