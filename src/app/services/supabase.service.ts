@@ -110,6 +110,26 @@ async addLists(lists: any) {
   }
 }
 
+async getDataLimited(table: string, limit: number = 4) {
+  const { data, error } = await this.supabase
+  .from('upcoming_trips')
+  .select('*');
+  if (error) {
+    console.log('Error fetching data:', error.message);
+  }
+  return data || [];
+}
+
+async getData(table: string) {
+  const { data, error } = await this.supabase
+  .from('upcoming_trips')
+  .select('*');
+  if (error) {
+    console.log('Error fetching data:', error.message);
+  }
+  return data || [];
+}
+
   async insertUser() {
     const { data, error } = await this.supabase
     .from('users')

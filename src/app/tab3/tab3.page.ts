@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SupabaseService } from '../services/supabase.service';
 
 @Component({
   selector: 'app-tab3',
@@ -8,6 +9,19 @@ import { Component } from '@angular/core';
 })
 export class Tab3Page {
 
-  constructor() {}
+  constructor(private supabase: SupabaseService) {}
+  items: any[] = [];
+
+  addTrip() {
+
+  }
+
+  goToTrip(){
+
+  }
+
+  async ngOnInit() {
+    this.items = await this.supabase.getData('upcoming_trips');
+  }
 
 }

@@ -5,34 +5,19 @@
 
 <ion-content [fullscreen]="true">
   <ion-card>
-    <ion-card-content>
-      <ion-list>
-        <ion-item>
-          <ion-label>London</ion-label>
-          <ion-icon class="arrow" name="arrow-forward"></ion-icon>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>Dublin</ion-label>
-          <ion-icon class="arrow" name="arrow-forward"></ion-icon>
-        </ion-item>
-
-        <ion-item>
-          <ion-label>New York</ion-label>
-          <ion-icon class="arrow" name="arrow-forward"></ion-icon>
-        </ion-item>
-  
-        <ion-item lines="none">
-          <ion-label>Paris</ion-label>
-          <ion-icon class="arrow" name="arrow-forward"></ion-icon>
-        </ion-item>
-      </ion-list>
-    </ion-card-content>
+    <ion-list>
+      <ion-item *ngFor="let item of items">
+        <ion-label> {{ item.trip_name }} </ion-label>
+        <ion-icon name="arrow-forward"></ion-icon>
+      </ion-item>
+    </ion-list>
   </ion-card>
 
-  <ion-button class="add" [routerLink]="['/addtrips']">
-    <ion-icon name="add-circle" style="font-size: 25px;"></ion-icon>
-  </ion-button>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed"> 
+    <ion-fab-button [routerLink]="['/addtrips']" class="add">
+      <ion-icon name="add-circle"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
   <app-explore-container name="Tab 4 page"></app-explore-container>
 </ion-content>
