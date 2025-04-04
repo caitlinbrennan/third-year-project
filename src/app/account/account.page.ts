@@ -11,6 +11,8 @@ import { SupabaseService } from '../services/supabase.service';
   imports: [IonicModule]
 })
 export class AccountPage implements OnInit {
+  userId = 'this.supabase.getUser()';
+  profilePicture: string | null = null;
 
   constructor(private navCtrl: NavController, private supabase: SupabaseService) { 
   }

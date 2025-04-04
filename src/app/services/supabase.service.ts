@@ -110,10 +110,11 @@ async addLists(lists: any) {
   }
 }
 
-async getDataLimited(table: string, limit: number = 4) {
+async getDataLimited(table: string, limit: number = 5) {
   const { data, error } = await this.supabase
   .from('upcoming_trips')
-  .select('*');
+  .select('*')
+  .limit(limit);
   if (error) {
     console.log('Error fetching data:', error.message);
   }
@@ -130,18 +131,19 @@ async getData(table: string) {
   return data || [];
 }
 
-  async insertUser() {
-    const { data, error } = await this.supabase
-    .from('users')
-    .insert([
-      { name: 'John', email: 'john@example.com'}
-    ]);
-    if (error) {
-      console.error('Error inserting data:', error);
-    }
-    else {
-      console.log('Inserted data:', data);
-    }
+
+listenForChanges(table: string, callback: (newData: any) => void) {
+  this.supabase
+    .channel('realtime updates')
+    .on(
+      'postgres_changes',
+      { event: 'INSERT', schema: 'public', table: 'upcoming_trip' },
+      (payload:any) => {
+        console.log('New item added:', payload.new);
+        callback(payload.new);
+      }
+    )
+    .subscribe();
 }
 
   signIn(email: string, password: string) {

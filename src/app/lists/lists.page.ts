@@ -21,6 +21,9 @@ interface YourTableData{
   imports: [CommonModule, FormsModule, IonicModule]
 })
 export class ListsPage implements OnInit {
+  lists: any[] = [];
+  newItem: any[] = [];
+  
   private supabase: SupabaseClient
 
   constructor(private router: Router, private navCtrl: NavController, private supabaseService: SupabaseService) {

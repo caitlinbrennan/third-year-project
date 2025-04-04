@@ -2,14 +2,26 @@
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
   </style>
 
-<ion-content class="background-image">
+<ion-content class="background-image" scroll-y="false">
   <ion-title size="large">Bon Voyage</ion-title>
   
   <div class="ion-padding">
     <p>Sign up below using your email and password</p>
   </div>
   <ion-list inset="true">
-    <form (ngSubmit)="handleLogin($event)">
+    <form (ngSubmit)="handleLogin($event)" (submit)="createProfile()">
+      <ion-item>
+        <ion-label position="stacked">Username</ion-label>
+        <ion-input [(ngModel)]="userName" name="firstname" type="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">First Name</ion-label>
+        <ion-input [(ngModel)]="firstName" name="firstname" type="name"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Last Name</ion-label>
+        <ion-input [(ngModel)]="lastName" name="lastname" type="name"></ion-input>
+      </ion-item>
       <ion-item>
         <ion-label position="stacked">Email</ion-label>
         <ion-input [(ngModel)]="email" name="email" autocomplete type="email"></ion-input>
@@ -19,7 +31,7 @@
         <ion-input [(ngModel)]="password" name="password" type="password"></ion-input>
       </ion-item>
       <div class="ion-text-center">
-        <ion-button type="submit" fill="clear" (click)="createProfile()">Signup</ion-button>
+        <ion-button type="submit" fill="clear">Signup</ion-button>
       </div>
       <ion-item>
         <ion-label (click)="goToLogin()" class="login">If you have an account, log in here!</ion-label>

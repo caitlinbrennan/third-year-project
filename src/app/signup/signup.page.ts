@@ -58,21 +58,24 @@ export class SignupPage {
     }
   }
 
+  userId: string="";
+  currentTimestamp = new Date().toISOString();
   userName: string="";
   firstName: string="";
   lastName: string="";
   avatar: string="";
-  emailUsed: string="";
-  passwordUsed: string="";
 
   async createProfile(){
+    const user = await this.supabase.getUser();
     const users = {
+      user_id: user.id,
+      created_at: new Date().toISOString(),
       username: this.userName,
       first_name: this.firstName,
       last_name: this.lastName,
       avatar_url: this.avatar,
-      email: this.emailUsed,
-      password: this.passwordUsed,
+      email: this.email,
+      password: this.password,
     }
 
     this.supabase.createProfile();

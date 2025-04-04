@@ -22,6 +22,11 @@ export class Tab3Page {
 
   async ngOnInit() {
     this.items = await this.supabase.getData('upcoming_trips');
+
+    this.supabase.listenForChanges('upcoming_trips', (newItem) => {
+      this.items = [newItem, ...this.items];
+    });
   }
+
 
 }

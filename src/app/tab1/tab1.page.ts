@@ -18,6 +18,6 @@ export class Tab1Page implements OnInit{
     this.router.navigate(['/lists']);
   }
   async ngOnInit() {
-    this.items = await this.supabase.getDataLimited('upcoming_trips');
+    this.items = await this.supabase.getDataLimited('upcoming_trips', 4);
   }
 }
