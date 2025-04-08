@@ -10,9 +10,11 @@ import { SupabaseService } from '../services/supabase.service';
   standalone: false,
 })
 export class Tab1Page implements OnInit{
+
   items: any[] = [];
 
-  constructor(private router: Router, private navCtrl: NavController, private supabase: SupabaseService) {}
+  constructor(private router: Router, private navCtrl: NavController, private supabase: SupabaseService) {
+  }
 
   goToLists(){
     this.router.navigate(['/lists']);

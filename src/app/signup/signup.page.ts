@@ -3,34 +3,97 @@ import { IonContent, IonTitle, IonModal } from '@ionic/angular/standalone';
 import { SupabaseService } from '../services/supabase.service';
 import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { FormsModule, Validators, FormBuilder } from '@angular/forms';
+import { NavController, LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { OverlayEventDetail } from '@ionic/core/components';
+import { ReactiveFormsModule } from '@angular/forms';
+import { SignUpData } from '../services/supabase.service';
+import { supabase } from '../services/supabaseClient';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
-  imports: [IonicModule, FormsModule, RouterModule, IonContent, IonTitle, IonModal]
+  imports: [ReactiveFormsModule, IonicModule, FormsModule, RouterModule, IonContent, IonTitle, IonModal]
 })
 export class SignupPage {
 
-  email = '';
-  password = '';
+  credentials = this.fb.nonNullable.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  })
 
-  constructor(private readonly supabase: SupabaseService, private navCtrl: NavController, private router: Router) {}
+  user: SignUpData = {
+    id: '',
+    username: '',
+    full_name: '',
+    avatar_url: '',
+    email: '',
+    password: '',
+  };
 
-  async handleLogin(event: any) {
+  constructor(private loadingController: LoadingController, private fb: FormBuilder, private readonly supabase: SupabaseService, private navCtrl: NavController, private router: Router) {
+  }
+
+  userName: string="";
+  fullName: string="";
+  avatar: string="";
+  emailUsed: string="";
+  passwordUsed: string="";
+  
+
+  async addAccount(){
+    const { data , error } = await supabase.auth.signUp({
+      email: this.emailUsed,
+      password: this.passwordUsed,
+    });
+    if(error) {
+      console.error('Sign-up error:', error.message);
+      return;
+    }
+    const user = data.user;
+
+    if(user) {
+      const account = {
+        updated_at: new Date().toISOString(),
+        username: this.userName,
+        full_name: this.fullName,
+        avatar_url: this.avatar,
+        email: this.emailUsed,
+        id: user.id,
+      };
+
+      const {error: ProfileError} = await this.supabase.addAccount(account);
+
+      if(ProfileError) {
+        console.error('Failed to insert user', ProfileError);
+        return;
+      }
+      else {
+        this.navCtrl.navigateRoot('/tabs/tab1');
+      }
+    }
+  }
+
+/*  async handleSignIn(event: any) {
+      const account = {
+      updated_at: new Date().toISOString(),
+      username: this.userName,
+      full_name: this.fullName,
+      avatar_url: this.avatar,
+      email: this.emailUsed,
+    };
+
     event.preventDefault()
     const loader = await this.supabase.createLoader()
     await loader.present()
     try {
-      const user = await this.supabase.signUp(this.email, this.password);
+      const user = await this.supabase.signUp(this.emailUsed, this.passwordUsed);
       await loader.dismiss()
       if(user) {
         console.log('Sign Up successful:', user);
+        await this.supabase.addAccount(account);
         this.navCtrl.navigateRoot('/tabs/tab1');
       }
     } catch (error: any) {
@@ -38,34 +101,15 @@ export class SignupPage {
       await this.supabase.createNotice(error.error_description || error.message)
     }
   }
-
-    @ViewChild(IonModal) modal!: IonModal;
-
-  message = 'This modal example uses triggers to automatically open a modal when the button is clicked.';
-  name!: string;
-
-  cancel() {
-    this.modal.dismiss(null, 'cancel');
-  }
-
-  confirm() {
-    this.modal.dismiss(this.name, 'confirm');
-  }
-
-  onWillDismiss(event: CustomEvent<OverlayEventDetail>) {
-    if (event.detail.role === 'confirm') {
-      this.message = `Hello, ${event.detail.data}!`;
-    }
-  }
-
-  userId: string="";
+*/
+/*  userId: string="";
   currentTimestamp = new Date().toISOString();
   userName: string="";
   firstName: string="";
   lastName: string="";
   avatar: string="";
-
-  async createProfile(){
+*/
+/*  async createProfile(){
     const user = await this.supabase.getUser();
     const users = {
       user_id: user.id,
@@ -80,7 +124,7 @@ export class SignupPage {
 
     this.supabase.createProfile();
   }
-
+*/
   goToLogin(){
     this.navCtrl.back();
   }

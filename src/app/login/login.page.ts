@@ -16,18 +16,22 @@ import { AlertController } from '@ionic/angular';
 })
 export class LoginPage {
 
-  email = "";
-  password = "";
+  emailUsed="";
+  passwordUsed="";
 
   constructor(private readonly supabase: SupabaseService, private router: Router,
     private navCtrl: NavController, private alertCtrl: AlertController, private loadingCtrl: LoadingController) {}
 
   async handleLogin(event: any) {
+    const account = {
+      updated_at: new Date().toISOString(),
+      email: this.emailUsed,
+    };
     event.preventDefault()
     const loader = await this.supabase.createLoader()
     await loader.present()
     try {
-      const user = await this.supabase.signIn(this.email, this.password);
+      const user = await this.supabase.signIn(this.emailUsed, this.passwordUsed);
       await loader.dismiss()
       if(user) {
         console.log('Login successful:', user);
@@ -44,7 +48,7 @@ export class LoginPage {
     await loading.present();
 
     try {
-      await this.supabase.login(this.email, this.password);
+      await this.supabase.login(this.emailUsed, this.passwordUsed);
       await loading.dismiss();
       this.showAlert('Success', 'Login successful!');
     }
@@ -65,7 +69,7 @@ export class LoginPage {
 
 
   goToSignup(){
-    this.router.navigate(['/signup']);
+    this.navCtrl.navigateForward(['/signup']);
   }
 
 }

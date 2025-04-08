@@ -9,26 +9,22 @@
     <p>Sign up below using your email and password</p>
   </div>
   <ion-list inset="true">
-    <form (ngSubmit)="handleLogin($event)" (submit)="createProfile()">
+    <form (ngSubmit)="addAccount()">
       <ion-item>
         <ion-label position="stacked">Username</ion-label>
-        <ion-input [(ngModel)]="userName" name="firstname" type="name"></ion-input>
+        <ion-input [(ngModel)]="userName" name="username"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">First Name</ion-label>
-        <ion-input [(ngModel)]="firstName" name="firstname" type="name"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Last Name</ion-label>
-        <ion-input [(ngModel)]="lastName" name="lastname" type="name"></ion-input>
+        <ion-label position="stacked">Full Name</ion-label>
+        <ion-input [(ngModel)]="fullName"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Email</ion-label>
-        <ion-input [(ngModel)]="email" name="email" autocomplete type="email"></ion-input>
+        <ion-input [(ngModel)]="emailUsed" name="email" autocomplete type="email"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Password</ion-label>
-        <ion-input [(ngModel)]="password" name="password" type="password"></ion-input>
+        <ion-input [(ngModel)]="passwordUsed" name="password" type="password"></ion-input>
       </ion-item>
       <div class="ion-text-center">
         <ion-button type="submit" fill="clear">Signup</ion-button>

@@ -1,54 +1,57 @@
 import { Injectable } from '@angular/core';
 import { LoadingController, ToastController } from '@ionic/angular'
-import { AuthChangeEvent, createClient, Session, SupabaseClient } from '@supabase/supabase-js'
-import { environment } from 'src/environments/environment';
+import { supabase } from './supabaseClient'
+import { AuthChangeEvent, Session } from '@supabase/supabase-js';
 
-export interface Profile{
-  username: string
-  website: string
-  avatar_url: string
+export interface SignUpData {
+  id: string;
+  username: string;
+  full_name: string;
+  avatar_url: string;
+  email: string;
+  password: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 
-
 export class SupabaseService {
 
-  private supabase: SupabaseClient
-
-  listTitle: string="";
+  listTitle: string=""; 
   itemName: string="";
 
   constructor(
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController
-  ) {
-    this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
-  }
+  ) {}
+
 
   async login(email: string, password: string) {
-    const { data, error } = await this.supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
     return data;
   }
-  async signUp(email: string, password: string) {
-    const { data, error } = await this.supabase.auth.signUp({email, password});
-    if (error) throw error;
+  async signUp(email: string, password: string): Promise<string> {
+    const { data , error } = await supabase.auth.signUp({
+      email: '',
+      password: '',
+    });
+
+    const user = data.user;
+    if (!user) {
+      console.error('No user returned');
+    }
+    if (data) throw error;
     return data;
   }
+
   async getUser() {
-    const { data, error } = await this.supabase.auth.getUser();
+    const { data, error } = await supabase.auth.getUser();
     if (error) throw error;
     return data?.user;
   }
-  userName: string="";
-  firstName: string="";
-  lastName: string="";
-  avatar: string="";
-  email: string="";
-  password: string="";
+
 
   date: string="";
   hour: string="";
@@ -56,35 +59,23 @@ export class SupabaseService {
   second: string="";
   description: string="";
 
+async addAccount(account: any) {
+  try {
+    const {data , error} = await supabase
+    .from('profiles')
+    .insert([account]);
 
-  async createProfile() {
-    const users = {
-      username: this.userName,
-      first_name: this.firstName,
-      last_name: this.lastName,
-      avatar_url: this.avatar,
-      email: this.email,
-      password: this.password,
-    }
-
-
-    try {
-      const {data , error} = await this.supabase
-      .from('userprofiles')
-      .insert([users]);
-
-      return { error, data};
-    }
-    catch (error: any) {
-      console.error('Signup failed', error.message, error.details);
-      return { error };
-    }
+    return { error, data};
+  }
+  catch (error) {
+    console.error('Failed to insert data', error);
+    return { error };
+  }
 }
-
 
 async addTrip(trips: any) {
   try {
-    const {data , error} = await this.supabase
+    const {data , error} = await supabase
     .from('upcoming_trips')
     .insert([trips]);
 
@@ -98,7 +89,7 @@ async addTrip(trips: any) {
 
 async addLists(lists: any) {
   try {
-    const {data , error} = await this.supabase
+    const {data , error} = await supabase
     .from('travel_lists')
     .insert([lists]);
 
@@ -111,7 +102,7 @@ async addLists(lists: any) {
 }
 
 async getDataLimited(table: string, limit: number = 5) {
-  const { data, error } = await this.supabase
+  const { data, error } = await supabase
   .from('upcoming_trips')
   .select('*')
   .limit(limit);
@@ -122,7 +113,7 @@ async getDataLimited(table: string, limit: number = 5) {
 }
 
 async getData(table: string) {
-  const { data, error } = await this.supabase
+  const { data, error } = await supabase
   .from('upcoming_trips')
   .select('*');
   if (error) {
@@ -133,7 +124,7 @@ async getData(table: string) {
 
 
 listenForChanges(table: string, callback: (newData: any) => void) {
-  this.supabase
+  supabase
     .channel('realtime updates')
     .on(
       'postgres_changes',
@@ -147,11 +138,11 @@ listenForChanges(table: string, callback: (newData: any) => void) {
 }
 
   signIn(email: string, password: string) {
-    return this.supabase.auth.signInWithPassword({ email, password })
+    return supabase.auth.signInWithPassword({ email, password })
   }
 
   get user() {
-    return this.supabase.auth.getUser();
+    return supabase.auth.getUser();
   }
   
   async getUserLists(userId: string) {
@@ -161,7 +152,7 @@ listenForChanges(table: string, callback: (newData: any) => void) {
       user_id: this.user,
     };
 
-    const { data, error } = await this.supabase
+    const { data, error } = await supabase
     .from('lists')
     .select('')
     .eq('user_id', userId);
@@ -173,7 +164,7 @@ listenForChanges(table: string, callback: (newData: any) => void) {
   }
 
   async searchItems(query: string): Promise<any[]>{
-    const { data, error } = await this.supabase
+    const { data, error } = await supabase
     .from('locations')
     .select('*')
     .ilike('country_name', '%${query}%');
@@ -183,29 +174,29 @@ listenForChanges(table: string, callback: (newData: any) => void) {
   }
 
     async getLists() {
-      let { data, error } = await this.supabase.from('lists').select('*').order('created_at', { ascending: false });
+      let { data, error } = await supabase.from('lists').select('*').order('created_at', { ascending: false });
       return data;
     }
   
     async addList(title: string) {
-      let { data, error } = await this.supabase.from('lists').insert([{ title }]);
+      let { data, error } = await supabase.from('lists').insert([{ title }]);
       return data;
     }
 
     async updateList(id: string, isCompleted: boolean) {
-      let { data, error } = await this.supabase.from('lists').update({ is_completed: isCompleted }).eq('id', id);
+      let { data, error } = await supabase.from('lists').update({ is_completed: isCompleted }).eq('id', id);
       return data;
     }
   
     async deleteList(id: string) {
-      let { data, error } = await this.supabase.from('lists').delete().eq('id', id);
+      let { data, error } = await supabase.from('lists').delete().eq('id', id);
       return data;
     }
 
 
 
   get session() {
-    return this.supabase.auth.getSession().then(({ data }) => data?.session)
+    return supabase.auth.getSession().then(({ data }) => data?.session)
   }
 
   /*get profile() {
@@ -217,10 +208,10 @@ listenForChanges(table: string, callback: (newData: any) => void) {
   }*/
 
   authChanges(callback: (event: AuthChangeEvent, session: Session | null) => void) {
-    return this.supabase.auth.onAuthStateChange(callback)
+    return supabase.auth.onAuthStateChange(callback)
   }
   signOut() {
-    return this.supabase.auth.signOut()
+    return supabase.auth.signOut()
   }
   /*async updateProfile(profile: Profile) {
     const user = await this.user
@@ -234,11 +225,11 @@ listenForChanges(table: string, callback: (newData: any) => void) {
   }*/
 
   downLoadImage(path: string) {
-    return this.supabase.storage.from('avatar_url').download(path)
+    return supabase.storage.from('avatar_url').download(path)
   }
 
   uploadAvatar(filePath: string, file: File) {
-    return this.supabase.storage.from('avatar_url').upload(filePath, file)
+    return supabase.storage.from('avatar_url').upload(filePath, file)
   }
 
   async createNotice(message: string) {

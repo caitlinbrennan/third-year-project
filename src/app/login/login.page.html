@@ -12,11 +12,11 @@
     <form (ngSubmit)="handleLogin($event)">
       <ion-item>
         <ion-label position="stacked">Email</ion-label>
-        <ion-input required [(ngModel)]="email" name="email" autocomplete type="email"></ion-input>
+        <ion-input required [(ngModel)]="emailUsed" name="email" autocomplete type="email"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Password</ion-label>
-        <ion-input [(ngModel)]="password" name="password" type="password"></ion-input>
+        <ion-input [(ngModel)]="passwordUsed" name="password" type="password"></ion-input>
       </ion-item>
       <div class="ion-text-center">
         <ion-button type="submit" fill="clear">Login</ion-button>
