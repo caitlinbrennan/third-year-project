@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
+import { supabase } from '../services/supabaseClient';
 
 @Component({
   selector: 'app-login',
@@ -26,22 +27,39 @@ export class LoginPage {
     const account = {
       updated_at: new Date().toISOString(),
       email: this.emailUsed,
+      password: this.passwordUsed,
     };
     event.preventDefault()
     const loader = await this.supabase.createLoader()
     await loader.present()
-    try {
-      const user = await this.supabase.signIn(this.emailUsed, this.passwordUsed);
-      await loader.dismiss()
-      if(user) {
-        console.log('Login successful:', user);
+
+      const { data: profiles, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id')  // Assume "user_id" is in the "profiles" table
+        .eq('email', this.emailUsed); 
+        if(profilesError) {
+          console.log('error', profilesError.message);
+        }
+        else if(profiles.length === 0) {
+          console.log('email not registered');
+          await loader.dismiss()
+        }
+        else {
+          const {data, error} = await supabase.auth.signInWithPassword({
+            email: this.emailUsed,
+            password: this.passwordUsed,
+          });
+          await loader.dismiss()
+      if(error) {
+        console.log('error', error.message);
+      }
+      else{
+        console.log('Login successful:', data);
         this.navCtrl.navigateRoot('/tabs/tab1');
       }
-    } catch (error: any) {
-      await loader.dismiss()
-      await this.supabase.createNotice(error.error_description || error.message)
-    }
   }
+}
+
 
   async login() {
     const loading = await this.loadingCtrl.create({ message: 'Logging in...'});

@@ -61,6 +61,7 @@ export class SignupPage {
         full_name: this.fullName,
         avatar_url: this.avatar,
         email: this.emailUsed,
+        password: this.passwordUsed,
         id: user.id,
       };
 
