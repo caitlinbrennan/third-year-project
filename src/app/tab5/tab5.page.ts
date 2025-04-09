@@ -50,7 +50,7 @@ export class Tab5Page implements OnInit{
   
 
   async ngOnInit() {
-      await this.loadShoppingItems();
+      await this.loadLists();
   }
 
   goToLists(){
@@ -61,7 +61,7 @@ export class Tab5Page implements OnInit{
 
     this.categories[categories] = !this.categories[categories];
   }
-  async loadShoppingItems() 
+  async loadLists() 
   {
     const items = await this.supabaseService.getLists();
 
@@ -117,7 +117,7 @@ export class Tab5Page implements OnInit{
           console.log('itemsByList', this.itemsByList);
           console.log('categories', this.categories);
 
-          this.loadShoppingItems();
+          this.loadLists();
           return true;
         }
         return false;

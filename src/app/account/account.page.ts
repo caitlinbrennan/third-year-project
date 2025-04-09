@@ -15,7 +15,7 @@ import { SignUpData } from '../services/supabase.service';
   imports: [IonicModule, FormsModule]
 })
 export class AccountPage implements OnInit {
-  items: any[] = [];
+  items: SignUpData | null = null;
 
   profilePicture: string | null = null;
   email: string = '';
@@ -24,6 +24,8 @@ export class AccountPage implements OnInit {
   }
 
   async ngOnInit() {
+    this.items = await this.supabase.getAccount();
+    console.log('Account Info:', this.items);
   }
 
   goBack(){

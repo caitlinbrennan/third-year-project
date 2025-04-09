@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { SupabaseClient, createClient} from '@supabase/supabase-js';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-addtrips',
@@ -14,7 +15,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AddtripsPage implements OnInit {
 
-  constructor(private supabase: SupabaseService, private router: Router) { }
+  constructor(private navCtrl: NavController, private supabase: SupabaseService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -55,5 +56,8 @@ export class AddtripsPage implements OnInit {
     else {
       console.log('Trip added:', response.data);
     }
+  }
+  goBack(){
+    this.navCtrl.back();
   }
 }

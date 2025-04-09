@@ -21,18 +21,6 @@ const routes: Routes = [
     loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
   },
   {
-    path: 'new-list',
-    loadChildren: () => import('./new-list/new-list.module').then( m => m.NewListPageModule)
-  },
-  {
-    path: 'bookmarks',
-    loadChildren: () => import('./bookmarks/bookmarks.module').then( m => m.BookmarksPageModule)
-  },
-  {
-    path: 'search',
-    loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
-  },
-  {
     path: 'account',
     loadChildren: () => import('./account/account.module').then( m => m.AccountPageModule)
   },

@@ -20,6 +20,17 @@ export interface ListItems {
   categories: string;
 }
 
+export interface popularPlace {
+  id: string;
+  country_name: string;
+  is_completed: boolean;
+}
+export interface bookmarks {
+  id?: string;
+  country_name: string;
+  is_completed: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -199,6 +210,50 @@ async getLists(): Promise<ListItems[] | null>
   return data;
 }
 
+async getPlaces(): Promise<popularPlace[] | null> 
+{
+  // get user first
+  const user = await this.getUser();
+  // if no user, nothing
+  if (!user) return null;
+
+  // get items from table based on user id
+  const { data, error } = await supabase
+    .from('popularplaces')
+    .select('*');
+
+  // if error, show
+  if (error) 
+  {
+    console.error('Error fetching list:', error.message);
+    return null;
+  }
+  // return items / null
+  return data;
+}
+
+async getBookmarks(): Promise<bookmarks[] | null> 
+{
+  // get user first
+  const user = await this.getUser();
+  // if no user, nothing
+  if (!user) return null;
+
+  // get items from table based on user id
+  const { data, error } = await supabase
+    .from('bookmarks')
+    .select('*');
+
+  // if error, show
+  if (error) 
+  {
+    console.error('Error fetching list:', error.message);
+    return null;
+  }
+  // return items / null
+  return data;
+}
+
 // add to shopping list
 async addListItem(item: ListItems) 
 {
@@ -263,11 +318,56 @@ async updateShoppingItem(item: ListItems)
   return { data, error };
 }
 
+async updatePlaces(item: popularPlace) 
+{
+  // if no item, show error
+  if (!item.id) return { error: 'No ID provided', data: null };
+
+  // get items based on id and check off
+  const { data, error } = await supabase
+    .from('bookmarks')
+    .insert({ is_completed: item.is_completed })
+    .eq('id', item.id);
+
+  // if error, show
+  if (error) 
+  {
+    console.error('Error updating item:', error.message);
+  }
+
+  return { data, error };
+}
+
+async updateBookmarks(item: bookmarks) 
+{
+  // if no item, show error
+  if (!item.id) return { error: 'No ID provided', data: null };
+
+  // get items based on id and check off
+  const { data, error } = await supabase
+    .from('bookmarks')
+    .insert({ is_completed: item.is_completed })
+    .eq('id', item.id);
+
+  // if error, show
+  if (error) 
+  {
+    console.error('Error updating item:', error.message);
+  }
+
+  return { data, error };
+}
+
 async getDataLimited(table: string, limit: number = 5) {
+  const user = await this.getUser();
+  // if no user, nothing
+  if (!user) return null;
   const { data, error } = await supabase
   .from('upcoming_trips')
   .select('*')
-  .limit(limit);
+  .eq('user_id', user.id)
+  .limit(limit)
+  .single();
   if (error) {
     console.log('Error fetching data:', error.message);
   }
@@ -275,9 +375,14 @@ async getDataLimited(table: string, limit: number = 5) {
 }
 
 async getData(table: string) {
+  const user = await this.getUser();
+  // if no user, nothing
+  if (!user) return null;
   const { data, error } = await supabase
   .from('upcoming_trips')
-  .select('*');
+  .select('*')
+  .eq('user_id', user.id)
+  .single();
   if (error) {
     console.log('Error fetching data:', error.message);
   }

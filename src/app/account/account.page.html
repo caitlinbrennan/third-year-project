@@ -29,12 +29,16 @@
 
   <form class="update" (ngSubmit)="updateProfile()" class="updateProfile">Update Account?
     <ion-item>
-      <ion-label>Username</ion-label>
+      <ion-label position="stacked">Username</ion-label>
       <ion-input type="text" [(ngModel)]="signupdata.username" name="username" required></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Name</ion-label>
+      <ion-label position="stacked">Name</ion-label>
       <ion-input type="text" [(ngModel)]="signupdata.full_name" name="full_name" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input type="email" [(ngModel)]="email" name="email" readonly></ion-input>
     </ion-item>
 
     <ion-button expand="full" type="submit" class="updateProfile">

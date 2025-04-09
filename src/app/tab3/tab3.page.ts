@@ -12,14 +12,6 @@ export class Tab3Page {
   constructor(private supabase: SupabaseService) {}
   items: any[] = [];
 
-  addTrip() {
-
-  }
-
-  goToTrip(){
-
-  }
-
   async ngOnInit() {
     this.items = await this.supabase.getData('upcoming_trips');
 
