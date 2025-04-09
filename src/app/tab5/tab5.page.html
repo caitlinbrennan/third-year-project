@@ -5,23 +5,32 @@
 
 <ion-content [fullscreen]="true">
 
-  <ion-card>
-    <ion-card-content>
-      <ion-list>
-        <ion-item lines="none">
-          <ion-label>Lists</ion-label>
-          <ion-icon class="arrow" name="arrow-forward" [routerLink]="['/lists']"></ion-icon>
-        </ion-item>
-        </ion-list>
-    </ion-card-content>
-  </ion-card>
+  <ion-list>
+    <ng-container *ngFor="let categories of categories | keyvalue">
+      <ion-item (click)="toggleList(castCategory(categories.key))">
+        <ion-label>
+          {{ categories.key || titleCase }}
+          <span *ngIf="itemsByList[castCategory(categories.key)]">
+            ({{ getCompletedItemsCount(castCategory(categories.key)) }}/{{ getTotalItemsCount(castCategory(categories.key)) }})
+          </span>
+        </ion-label>
 
-  
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed"> 
-    <ion-fab-button [routerLink]="['/addtrips']" class="add">
-      <ion-icon name="add-circle"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+        <ion-icon [name]="categories.value ? 'chevron-up' : 'chevron-down'"></ion-icon>
+      </ion-item>
+      <div *ngIf="categories.value as categoryValue">
+
+        <ion-item *ngFor="let item of itemsByList[castCategory(categories.key)]; let i = index" class="added-item">
+          <ion-checkbox slot="start" [checked]="item.is_completed" (ionChange)="toggleItem(item)" class="checkbox padding"></ion-checkbox>
+          <ion-label>{{ item.task_name }}</ion-label>
+          <ion-icon name="trash" (click)="deleteItem(castCategory(categories.key), item.id!)"></ion-icon>
+        </ion-item>
+
+        <ion-item (click)="addItem(castCategory(categories.key))" class="add-button">
+          <ion-icon name="add-circle"></ion-icon>
+        </ion-item>
+      </div>
+    </ng-container>
+  </ion-list>
 
 
   <app-explore-container name="Tab 5 page"></app-explore-container>

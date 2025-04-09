@@ -12,6 +12,13 @@ export interface SignUpData {
   email: string;
   password: string;
 }
+export interface ListItems {
+  id?: string;
+  task_name: string;
+  is_completed: boolean;
+  user_id?: string;
+  categories: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -169,18 +176,91 @@ async addTrip(trips: any) {
   }
 }
 
-async addLists(lists: any) {
-  try {
-    const {data , error} = await supabase
-    .from('travel_lists')
-    .insert([lists]);
+async getLists(): Promise<ListItems[] | null> 
+{
+  // get user first
+  const user = await this.getUser();
+  // if no user, nothing
+  if (!user) return null;
 
-    return { error, data};
+  // get items from table based on user id
+  const { data, error } = await supabase
+    .from('travel_lists')
+    .select('*')
+    .eq('user_id', user.id);
+
+  // if error, show
+  if (error) 
+  {
+    console.error('Error fetching list:', error.message);
+    return null;
   }
-  catch (error) {
-    console.error('Failed to insert data', error);
-    return { error };
+  // return items / null
+  return data;
+}
+
+// add to shopping list
+async addListItem(item: ListItems) 
+{
+  // get user
+  const user = await this.getUser();
+  // if none, say so
+  if (!user) return { data: null, error: 'User not logged in' };
+
+  // insert to row of matching id
+  const { data, error } = await supabase
+    .from('travel_lists')
+    .insert([{ ...item, user_id: user.id }])
+    .select()
+    .single();
+
+  // if error, show
+  if (error) 
+  {
+    console.error('Error adding item:', error.message);
+    return { data: null, error };
   }
+
+  return { data, error: null };
+}
+
+// delete item
+async deleteListItem(itemId: string) 
+{
+  // get items by id and delete
+  const { error } = await supabase
+    .from('travel_lists')
+    .delete()
+    .eq('id', itemId);
+
+  // if error, show
+  if (error) 
+  {
+    console.error('Error deleting item:', error.message);
+  }
+
+  return { error };
+}
+
+// update item - check it off
+async updateShoppingItem(item: ListItems) 
+{
+  // if no item, show error
+  if (!item.id) return { error: 'No ID provided', data: null };
+
+  // get items based on id and check off
+  const { data, error } = await supabase
+    .from('travel_lists')
+    .update({ is_completed: item.is_completed })
+    .eq('id', item.id);
+
+  // if error, show
+  if (error) 
+  {
+    console.error('Error updating item:', error.message);
+  }
+
+  return { data, error };
 }
 
 async getDataLimited(table: string, limit: number = 5) {
@@ -309,11 +389,6 @@ listenForChanges(table: string, callback: (newData: any) => void) {
     if (error) throw error;
     return data || [];
   }
-
-    async getLists() {
-      let { data, error } = await supabase.from('lists').select('*').order('created_at', { ascending: false });
-      return data;
-    }
   
     async addList(title: string) {
       let { data, error } = await supabase.from('lists').insert([{ title }]);

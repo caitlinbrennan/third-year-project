@@ -63,27 +63,5 @@ export class NewListPage implements OnInit {
       created_at: new Date().toISOString(),
     };
 
-    const response = await this.supabaseService.addLists(lists);
-    if (response.error) {
-      console.error('Failed to add list:', response.error);
-    }
-    else {
-      console.log('List added:', response.data);
-    }
-  }
-  
-
-  async toggleCompleted(todo: any) {
-    await this.supabaseService.updateList(todo.id, !todo.is_completed);
-    this.loadLists();
-  }
-
-  async deleteTodo(id: string) {
-    await this.supabaseService.deleteList(id);
-    this.loadLists();
-  }
-
-  goBack(){
-    this.navCtrl.back();
-  }
+}
 }
