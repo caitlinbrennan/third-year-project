@@ -4,7 +4,7 @@
 
 <ion-toolbar class="topbar" height="300px">
   <ion-title size="large">Home</ion-title>
-  <ion-icon name="person-circle-outline" class="profile" style="float: right; scale: 3; padding-right: 3%;" [routerLink]="['/account']"></ion-icon>
+  <ion-icon name="person-circle-outline" [attr.aria-hidden]="selectedTab !== 1 ? 'true':null" [class.hidden]="selectedTab !== 1" (click)="selectTab(1)" class="profile" style="float: right; scale: 3; padding-right: 3%;" [routerLink]="['/account']"></ion-icon>
 </ion-toolbar>
 
 <ion-content [fullscreen]="true" scroll-y="false">

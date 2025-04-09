@@ -8,6 +8,12 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
+  selectedTab: number = 1;
+
   constructor() {}
+
+  selectTab(tabIndex: number) {
+    this.selectedTab = tabIndex;
+  }
 
 }

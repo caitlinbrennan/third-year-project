@@ -14,9 +14,34 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-label></ion-label>
+  <div class="photo">
+    <input type="file" (change)="onImageSelected($event)" accept="image/*" hidden #fileInput>
 
-  <ion-button (click)="logout()">Logout</ion-button>
+    <img [src]="profilePicture || 'https://www.pngkey.com/png/full/52-523516_empty-profile-picture-circle.png'" 
+          (click)="fileInput.click()"
+          class="upload-placeholder"
+          alt="Upload">
 
-  <ion-button class="update">Update Account?</ion-button>
-</ion-content>
+    <button *ngIf="profilePicture" (click)="deleteImage()" class="remove-btn">
+      <ion-icon name="close"></ion-icon> Remove Image
+    </button>
+  </div>
+
+  <form class="update" (ngSubmit)="updateProfile()" class="updateProfile">Update Account?
+    <ion-item>
+      <ion-label>Username</ion-label>
+      <ion-input type="text" [(ngModel)]="signupdata.username" name="username" required></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Name</ion-label>
+      <ion-input type="text" [(ngModel)]="signupdata.full_name" name="full_name" required></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" type="submit" class="updateProfile">
+      Update Profile
+    </ion-button>
+  </form>
+
+  <ion-button (click)="logout()" class="logout">Logout</ion-button>
+
+  </ion-content>

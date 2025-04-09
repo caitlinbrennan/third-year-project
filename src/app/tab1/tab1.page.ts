@@ -12,6 +12,7 @@ import { SupabaseService } from '../services/supabase.service';
 export class Tab1Page implements OnInit{
 
   items: any[] = [];
+  selectedTab: number = 1;
 
   constructor(private router: Router, private navCtrl: NavController, private supabase: SupabaseService) {
   }
@@ -21,5 +22,9 @@ export class Tab1Page implements OnInit{
   }
   async ngOnInit() {
     this.items = await this.supabase.getDataLimited('upcoming_trips', 4);
+  }
+
+  selectTab(tabIndex: number) {
+    this.selectedTab = tabIndex;
   }
 }

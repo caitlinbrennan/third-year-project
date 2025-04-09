@@ -58,6 +58,9 @@ export class LoginPage {
         this.navCtrl.navigateRoot('/tabs/tab1');
       }
   }
+  const { data: { user }, error } = await supabase.auth.getUser();
+  console.log('User:', user);
+
 }
 
 

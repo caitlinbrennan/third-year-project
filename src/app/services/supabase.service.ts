@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { LoadingController, ToastController } from '@ionic/angular'
 import { supabase } from './supabaseClient'
 import { AuthChangeEvent, Session } from '@supabase/supabase-js';
+import { SignupPage } from '../signup/signup.page';
 
 export interface SignUpData {
   id: string;
@@ -63,7 +64,7 @@ async addAccount(account: any) {
   try {
     const {data , error} = await supabase
     .from('profiles')
-    .insert([account]);
+    .insert([account])
 
     return { error, data};
   }
@@ -72,6 +73,87 @@ async addAccount(account: any) {
     return { error };
   }
 }
+
+async uploadFileToBucket(bucket: string, fileName: string, file: File) 
+  {
+    const { data, error } = await supabase.storage
+      .from(bucket)
+      .upload(fileName, file, 
+      {
+        cacheControl: '3600',
+        upsert: false,
+      });
+
+    return { data, error };
+  }
+
+  // Get URL of pfp
+  getFilePublicUrl(bucket: string, filePath: string) 
+  {
+    try 
+    {
+      const { data } = supabase.storage.from(bucket).getPublicUrl(filePath);
+
+      if (!data) 
+      {
+        console.error('No data returned from getPublicUrl');
+        return { publicUrl: '', error: 'No data returned' };
+      }
+    
+      return { publicUrl: data.publicUrl, error: null };
+    }
+    catch (error) 
+    {
+      console.error('Error getting public URL:', error);
+      return { publicUrl: '', error: (error as Error).message };
+    }
+  }
+
+  // delete files from bucket in supabase
+  async deleteFileFromBucket(bucket: string, fileName: string) 
+  {
+    const { error } = await supabase.storage.from(bucket).remove([fileName]);
+    return { error };
+  }
+
+  // create new profile
+  async createProfile(
+    userId: string,
+    firstName: string,
+    lastName: string,
+    username: string,
+    profilePicture: string,
+    cookingSkillLevel: string
+  ) {
+    try 
+    {
+      // Insert / update profile in profiles table
+      const { data, error } = await supabase
+        .from('profiles')
+        .upsert({
+          id: userId,
+          first_name: firstName,
+          last_name: lastName,
+          username: username,
+          profile_picture: profilePicture,
+          cooking_skill_level: cookingSkillLevel,
+        });
+
+      // If error, show it
+      if (error) {
+        console.error('Error creating profile:', error);
+        throw new Error(error.message);
+      }
+
+      // Return data if successful
+      return data;
+    } 
+    catch (error) 
+    {
+      console.error('Error creating profile:', error);
+      throw error;
+    }
+  }
 
 async addTrip(trips: any) {
   try {
@@ -122,6 +204,61 @@ async getData(table: string) {
   return data || [];
 }
 
+async getCurrentUser() {
+  const user = await supabase.auth.getUser();
+  return user;
+}
+
+async getAccount(): Promise<SignUpData | null> {
+  try {
+    const user = await this.user;
+    if (!user?.id){
+      console.log('id not found');
+      return null;
+    }
+
+    const {data,error} = await supabase
+    .from('profiles')
+    .select('id, username, full_name, avatar_url, email, password')
+    .eq('id', user.id)
+    .single();
+
+    if(error) {
+      console.error('error getting user profile', error.message);
+      return null;
+    }
+    if(!data) {
+      console.warn('no profile found');
+      return null;
+    }
+    return data as SignUpData;
+  }
+  catch (error:any){
+    console.error('error getting profile', error.message);
+    return null;
+  }
+  
+}
+
+async updateProfile(signupdata: SignUpData) 
+  {
+    const user = await this.user
+
+    // update profile table with new info, update time
+    const update = 
+    {
+      ...signupdata,
+      id: user?.id,
+      updated_at: new Date(),
+    }
+    return supabase.from('profiles').upsert(update)
+  }
+
+  createLoader() 
+  {
+    return this.loadingCtrl.create()
+  }
+
 
 listenForChanges(table: string, callback: (newData: any) => void) {
   supabase
@@ -142,7 +279,7 @@ listenForChanges(table: string, callback: (newData: any) => void) {
   }
 
   get user() {
-    return supabase.auth.getUser();
+    return supabase.auth.getUser().then(({ data }) => data?.user)
   }
   
   async getUserLists(userId: string) {
@@ -237,7 +374,4 @@ listenForChanges(table: string, callback: (newData: any) => void) {
     await toast.present()
   }
 
-  createLoader() {
-    return this.loadingCtrl.create()
-  }
 }
